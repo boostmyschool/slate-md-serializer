@@ -37,7 +37,7 @@ test("maintains multiple empty paragraphs", () => {
 This is the first sentance
 
 
-Two empty paragraphs above
+No empty paragraphs above
 `;
   expect(getNodes(text)).toMatchSnapshot();
 });
