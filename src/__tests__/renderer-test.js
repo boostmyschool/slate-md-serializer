@@ -162,6 +162,16 @@ test("parses quote with newlines and marks", () => {
   expect(getNodes(text)).toMatchSnapshot();
 });
 
+test("parses quote with newlines and marks", () => {
+  const text = `
+> this is a *quote*
+> this is the second part of the quote
+>
+> this is the third part of the quote
+`;
+  expect(getNodes(text)).toMatchSnapshot();
+});
+
 test("quotes do not get combined", () => {
   const text = `
 > this is a quote
