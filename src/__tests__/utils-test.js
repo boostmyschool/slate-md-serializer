@@ -28,7 +28,7 @@ describe("escapeMarkdownChars", () => {
     );
 
     expect(escapeMarkdownChars("this is a #hashtag-notatag")).toEqual(
-      "this is a #hashtag\\-notatag"
+      "this is a #hashtag-notatag"
     );
 
     expect(escapeMarkdownChars("this is a #hashtag")).toEqual(

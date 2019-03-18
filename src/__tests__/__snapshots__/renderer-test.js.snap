@@ -2483,24 +2483,6 @@ Array [
               Object {
                 "marks": Array [],
                 "object": "leaf",
-                "text": "",
-              },
-            ],
-            "object": "text",
-          },
-        ],
-        "object": "block",
-        "type": "paragraph",
-      },
-      Object {
-        "data": Object {},
-        "isVoid": false,
-        "nodes": Array [
-          Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
                 "text": "this is the third part of the quote",
               },
             ],
@@ -2517,7 +2499,7 @@ Array [
 ]
 `;
 
-exports[`parses quote with newlines and marks 1`] = `
+exports[`parses quote with newlines and marks 2`] = `
 Array [
   Object {
     "data": Object {},
