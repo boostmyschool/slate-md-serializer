@@ -54,6 +54,12 @@ describe("escapeMarkdownChars", () => {
     );
   });
 
+  test("does not escape parenthesis", () => {
+    expect(escapeMarkdownChars("(safe)")).toEqual(
+      "(safe)"
+    );
+  });
+
   test("handles ordered list items", () => {
     expect(escapeMarkdownChars(" 1a. item.")).toEqual(" 1a\\. item.");
   });
