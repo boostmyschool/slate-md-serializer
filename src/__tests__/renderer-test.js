@@ -112,6 +112,11 @@ test("inserted mark", () => {
   expect(getNodes(text)).toMatchSnapshot();
 });
 
+test("underlined mark", () => {
+  const text = `__underlined text__`;
+  expect(getNodes(text)).toMatchSnapshot();
+});
+
 test("code mark", () => {
   const text = "`const foo = 123;`";
   expect(getNodes(text)).toMatchSnapshot();
@@ -336,6 +341,18 @@ function() {
   expect(getNodes(text)).toMatchSnapshot();
 });
 
+test("parses ``` code fences with language", () => {
+  const text = `
+\`\`\`javascript
+const hello = 'world';
+function() {
+  return hello;
+}
+\`\`\`
+`;
+  expect(getNodes(text)).toMatchSnapshot();
+});
+
 test("does not escape characters inside of code blocks", () => {
   const text = `
 \`\`\`
@@ -390,6 +407,11 @@ test("parses indented code blocks", () => {
 
 test("parses hashtag", () => {
   const text = `this is a #hashtag example`;
+  expect(getNodes(text)).toMatchSnapshot();
+});
+
+test("parses hashtag ignoring dash", () => {
+  const text = `dash should end #hashtag-dash`;
   expect(getNodes(text)).toMatchSnapshot();
 });
 

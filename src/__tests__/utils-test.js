@@ -27,6 +27,10 @@ describe("escapeMarkdownChars", () => {
       "this not a \\# hashtag"
     );
 
+    expect(escapeMarkdownChars("this is a #hashtag-notatag")).toEqual(
+      "this is a #hashtag-notatag"
+    );
+
     expect(escapeMarkdownChars("this is a #hashtag")).toEqual(
       "this is a #hashtag"
     );
@@ -47,6 +51,12 @@ describe("escapeMarkdownChars", () => {
   test("does not escape exclamation points", () => {
     expect(escapeMarkdownChars("do not escape!")).toEqual(
       "do not escape!"
+    );
+  });
+
+  test("does not escape parenthesis", () => {
+    expect(escapeMarkdownChars("(safe)")).toEqual(
+      "(safe)"
     );
   });
 

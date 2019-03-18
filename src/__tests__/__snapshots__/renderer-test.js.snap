@@ -666,6 +666,34 @@ function() {
 ]
 `;
 
+exports[`parses \`\`\` code fences with language 1`] = `
+Array [
+  Object {
+    "data": Object {
+      "language": "javascript",
+    },
+    "isVoid": false,
+    "nodes": Array [
+      Object {
+        "leaves": Array [
+          Object {
+            "marks": Array [],
+            "object": "leaf",
+            "text": "const hello = 'world';
+function() {
+  return hello;
+}",
+          },
+        ],
+        "object": "text",
+      },
+    ],
+    "object": "block",
+    "type": "code",
+  },
+]
+`;
+
 exports[`parses ~~~ code fences 1`] = `
 Array [
   Object {
@@ -896,6 +924,57 @@ Array [
             "marks": Array [],
             "object": "leaf",
             "text": " example",
+          },
+        ],
+        "object": "text",
+      },
+    ],
+    "object": "block",
+    "type": "paragraph",
+  },
+]
+`;
+
+exports[`parses hashtag ignoring dash 1`] = `
+Array [
+  Object {
+    "data": Object {},
+    "isVoid": false,
+    "nodes": Array [
+      Object {
+        "leaves": Array [
+          Object {
+            "marks": Array [],
+            "object": "leaf",
+            "text": "dash should end ",
+          },
+        ],
+        "object": "text",
+      },
+      Object {
+        "data": Object {},
+        "isVoid": false,
+        "nodes": Array [
+          Object {
+            "leaves": Array [
+              Object {
+                "marks": Array [],
+                "object": "leaf",
+                "text": "#hashtag",
+              },
+            ],
+            "object": "text",
+          },
+        ],
+        "object": "inline",
+        "type": "hashtag",
+      },
+      Object {
+        "leaves": Array [
+          Object {
+            "marks": Array [],
+            "object": "leaf",
+            "text": "-dash",
           },
         ],
         "object": "text",
@@ -3305,6 +3384,35 @@ Array [
             "marks": Array [],
             "object": "leaf",
             "text": "a new paragraph",
+          },
+        ],
+        "object": "text",
+      },
+    ],
+    "object": "block",
+    "type": "paragraph",
+  },
+]
+`;
+
+exports[`underlined mark 1`] = `
+Array [
+  Object {
+    "data": Object {},
+    "isVoid": false,
+    "nodes": Array [
+      Object {
+        "leaves": Array [
+          Object {
+            "marks": Array [
+              Object {
+                "data": Object {},
+                "object": "mark",
+                "type": "underlined",
+              },
+            ],
+            "object": "leaf",
+            "text": "underlined text",
           },
         ],
         "object": "text",

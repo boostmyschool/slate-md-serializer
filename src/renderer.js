@@ -73,8 +73,10 @@ const RULES = [
           return `| ${children} `;
         case "paragraph":
           return addNewLine(children);
-        case "code":
-          return addNewLine(`\`\`\`\n${children}\n\`\`\``);
+        case "code": {
+          const language = obj.getIn(["data", "language"]) || "";
+          return addNewLine(`\`\`\`${language}\n${children}\n\`\`\``);
+        }
         case "code-line":
           return `${children}\n`;
         case "block-quote":
@@ -127,18 +129,18 @@ const RULES = [
   },
   {
     serialize(obj, children) {
-      if (obj.object !== "inline") return;
-
-      switch (obj.type) {
-        case "hashtag":
-          return children;
-        case "link":
-          const href = encode(obj.getIn(["data", "href"]) || "");
-          return href ? `[${children.trim()}](${href})` : children.trim();
+      if (obj.type === "hashtag") return children;
+    }
+  },
+  {
+    serialize(obj, children) {
+      if (obj.type === "link") {
+        const href = encode(obj.getIn(["data", "href"]) || "");
+        const text = children.trim() || href;
+        return href ? `[${text}](${href})` : text;
       }
     }
   },
-  // Add a new rule that handles marks...
   {
     serialize(obj, children) {
       if (obj.object !== "mark") return;
@@ -155,6 +157,8 @@ const RULES = [
           return `++${children}++`;
         case "deleted":
           return `~~${children}~~`;
+        case "underlined":
+          return `__${children}__`;
       }
     }
   }
@@ -171,7 +175,7 @@ class Markdown {
    * Create a new serializer with `rules`.
    *
    * @param {Object} options
-   *   @property {Array} rules
+   * @property {Array} rules
    * @return {Markdown} serializer
    */
 

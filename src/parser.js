@@ -1,4 +1,5 @@
 import { decode } from "./urls";
+import generateHashtagRegex from "hashtag-regex";
 
 /**
  * Ported from:
@@ -7,6 +8,12 @@ import { decode } from "./urls";
  *   Use ES6 classes
  *   Add flow annotations
  */
+
+// we need to convert the regex supplied by the dependency to have the
+// entire hashtag contents within a capture group and begin with newline
+const hashtag = new RegExp(
+  generateHashtagRegex().source.replace(/^/, "^(").replace(/$/, ")")
+);
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -39,7 +46,6 @@ var defaults = {
   pedantic: false,
   smartLists: true,
   silent: false,
-  langPrefix: "lang-",
   renderer: new Renderer()
 };
 
@@ -494,10 +500,11 @@ Lexer.prototype.token = function(src, top, bq) {
 var inline = {
   escape: /^\\([\\`*{}\[\]()#+\-.!_>])/,
   link: /^!?\[(inside)\]\(href\)/,
-  hashtag: /^(#(?:\[[^\]]+\]|\S+))/,
+  hashtag,
   reflink: /^!?\[(inside)\]\s*\[([^\]]*)\]/,
   nolink: /^!?\[((?:\[[^\]]*\]|[^\[\]])*)\]/,
-  strong: /^__([\s\S]+?)__(?!_)|^\*\*([\s\S]+?)\*\*(?!\*)/,
+  strong: /^\*\*([\s\S]+?)\*\*(?!\*)/,
+  underlined: /^__([\s\S]+?)__(?!_)/,
   em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
   code: /^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/,
   br: /^ {2,}\n(?!\s*$)/,
@@ -655,6 +662,13 @@ InlineLexer.prototype.parse = function(src) {
       continue;
     }
 
+    // underlined
+    if ((cap = this.rules.underlined.exec(src))) {
+      src = src.substring(cap[0].length);
+      out.push(this.renderer.underlined(this.parse(cap[2] || cap[1])));
+      continue;
+    }
+
     // strong
     if ((cap = this.rules.strong.exec(src))) {
       src = src.substring(cap[0].length);
@@ -762,11 +776,11 @@ Renderer.prototype.groupTextInLeaves = function(childNode) {
   }, []);
 };
 
-Renderer.prototype.code = function(childNode, lang) {
+Renderer.prototype.code = function(childNode, language) {
   var data = {};
 
-  if (lang) {
-    data.language = this.options.langPrefix + lang;
+  if (language) {
+    data.language = language;
   }
 
   return {
@@ -859,6 +873,17 @@ Renderer.prototype.tablecell = function(childNode, flags) {
 };
 
 // span level renderer
+Renderer.prototype.underlined = function(childNode) {
+  return childNode.map(node => {
+    if (node.marks) {
+      node.marks.push({ type: "underlined" });
+    } else {
+      node.marks = [{ type: "underlined" }];
+    }
+    return node;
+  });
+};
+
 Renderer.prototype.strong = function(childNode) {
   return childNode.map(node => {
     if (node.marks) {

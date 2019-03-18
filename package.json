@@ -1,6 +1,6 @@
 {
   "name": "slate-md-serializer",
-  "version": "8.0.2",
+  "version": "8.0.3",
   "description": "",
   "main": "lib/renderer.js",
   "scripts": {
@@ -39,5 +39,8 @@
     "roots": [
       "src"
     ]
+  },
+  "dependencies": {
+    "hashtag-regex": "^2.0.0"
   }
 }
