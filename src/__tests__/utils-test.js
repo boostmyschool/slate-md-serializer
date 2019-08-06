@@ -16,9 +16,21 @@ describe("escapeMarkdownChars", () => {
     );
   });
 
+  test("handles bolds with underscores", () => {
+    expect(escapeMarkdownChars("this is __not italic__")).toEqual(
+      "this is \\_\\_not italic\\_\\_"
+    );
+  });
+
   test("handles italics", () => {
     expect(escapeMarkdownChars("this is *not italic*")).toEqual(
       "this is \\*not italic\\*"
+    );
+  });
+
+  test("handles italics with underscores", () => {
+    expect(escapeMarkdownChars("this is _not italic_")).toEqual(
+      "this is \\_not italic\\_"
     );
   });
 
@@ -76,5 +88,13 @@ describe("escapeMarkdownChars", () => {
 
   test("does not escape HTML", () => {
     expect(escapeMarkdownChars("<br>")).toEqual("<br>");
+  });
+
+  test("does not escape HTML", () => {
+    expect(escapeMarkdownChars("<br>")).toEqual("<br>");
+  });
+
+  test("does not escape underscores", () => {
+    expect(escapeMarkdownChars("hello_world")).toEqual("hello_world");
   });
 });
